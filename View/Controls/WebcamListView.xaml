@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:View.Controls"
+             xmlns:viewModel="clr-namespace:ESystems.WebCamControl.ViewModel;assembly=ESystems.WebCamControl.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="500">
+             d:DesignHeight="30" d:DesignWidth="500"
+             d:DataContext="{d:DesignInstance viewModel:WorkspaceViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -14,7 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ComboBox Grid.Column="0" Grid.Row="0"/>
-        <Button Grid.Column="1" Grid.Row="0">Refresh</Button>
+        <ComboBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Cameras}" DisplayMemberPath="Name" SelectedIndex="{Binding CameraSelectedIndex}"/>
+        <Button Grid.Column="1" Grid.Row="0" Command="{Binding RefreshCameraCommand}">Refresh</Button>
     </Grid>
 </UserControl>

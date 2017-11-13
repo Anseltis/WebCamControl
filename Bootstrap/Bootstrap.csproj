@@ -98,6 +98,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{68104DDD-05C1-4CB8-9A08-0008BB85411C}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools.ViewModel\Tools.ViewModel.csproj">
+      <Project>{bf9e691b-36c4-4f05-a02c-463e4408b4b1}</Project>
+      <Name>Tools.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools.View\Tools.View.csproj">
+      <Project>{D4A08E18-C8AC-49BA-B224-1AAFAF24F19D}</Project>
+      <Name>Tools.View</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel\ViewModel.csproj">
+      <Project>{E81BB53E-483C-420E-946A-EF1B33A286AF}</Project>
+      <Name>ViewModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\View\View.csproj">
       <Project>{6CDD8583-0764-495D-94E1-08EE0A628C90}</Project>
       <Name>View</Name>
