@@ -1,13 +1,20 @@
-﻿<UserControl x:Class="View.Controls.WebcamVideoView"
+﻿<UserControl x:Class="ESystems.WebCamControl.View.Controls.WebcamVideoView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:View.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:wpf="clr-namespace:WebEye.Controls.Wpf;assembly=WebEye.Controls.Wpf.WebCameraControl"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:ESystems.WebCamControl.Tools.View.Behaviors;assembly=ESystems.WebCamControl.Tools.View"
+             xmlns:viewModel="clr-namespace:ESystems.WebCamControl.ViewModel;assembly=ESystems.WebCamControl.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="500"
+             d:DataContext="{d:DesignInstance viewModel:WorkspaceViewModel}">
     <Grid>
-        <wpf:WebCameraControl Grid.Row="1" Grid.Column="1" />
+        <wpf:WebCameraControl Grid.Row="1" Grid.Column="1" >
+            <i:Interaction.Behaviors>
+                <behaviors:WebcamCaptureBehavior WebcamCaptureHolder="{Binding}"/>
+            </i:Interaction.Behaviors>
+        </wpf:WebCameraControl>
     </Grid>
 </UserControl>

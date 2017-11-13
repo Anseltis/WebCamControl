@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using ESystems.WebCamControl.Model;
@@ -9,7 +10,7 @@ namespace ESystems.WebCamControl.ViewModel
     /// <summary> 
     /// A class of camera list control.
     /// </summary>
-    public class WorkspaceViewModel: BaseViewModel
+    public class WorkspaceViewModel: BaseViewModel, IWebcamCaptureHolder
     {
         private readonly CameraProvider _cameraProvider;
 
@@ -35,10 +36,15 @@ namespace ESystems.WebCamControl.ViewModel
             set => SetField(ref _cameraSelectedIndex, value);
         }
 
+
+        public ICommand StartCaptureCommand { get; }
+        public ICommand StopCaptureCommand { get; }
+
         /// <summary>
         /// Gets a active camers instance.
         /// </summary>
-        public CameraViewModel CameraViewModelSelectedItem => Cameras[CameraSelectedIndex];
+        public CameraViewModel CameraSelectedItem => CameraSelectedIndex >= 0 && CameraSelectedIndex < Cameras.Count
+            ? Cameras[CameraSelectedIndex] : null;
 
         /// <summary>
         /// Gets Refresh cameras action
@@ -49,27 +55,75 @@ namespace ESystems.WebCamControl.ViewModel
         /// <summary>
         ///  Initializes a new instance of the <see cref="WorkspaceViewModel"/> class.
         /// </summary>
-        public WorkspaceViewModel(ICommandFactory commandFactory, CameraProvider cameraProvider)
+        /// <param name="cameraProvider">A camera list discovery</param>
+        /// <param name="commandFactory">A factory to create command instance</param>
+        public WorkspaceViewModel(CameraProvider cameraProvider, ICommandFactory commandFactory)
         {
             _cameraProvider = cameraProvider;
             RefreshCameraCommand = commandFactory.CreateCommand(RefreshCameras);
+
+            this
+                .SetPropertyChanged(nameof(CameraSelectedIndex), () => OnPropertyChanged(nameof(CameraSelectedItem)))
+                .SetPropertyChanged(nameof(CameraSelectedItem), () => 
+                {
+                    foreach (var camera in _cameras)
+                    {
+                        camera.Capture = false;
+                    }
+                });
+
+            StartCaptureCommand = commandFactory.CreateCommand<CameraViewModel>(StartCapture);
+            StopCaptureCommand = commandFactory.CreateCommand<CameraViewModel>(StopCapture);
         }
-        
+
         /// <summary>
         /// Refreshes the camera list
         /// </summary>
         public void RefreshCameras()
         {
+            if (CameraSelectedItem?.Capture == true)
+            {
+                CameraSelectedItem.Capture = false;    
+            }
+
             Cameras = NoCameras;
             Cameras = _cameraProvider.GetList()
                 .Select(camera => new CameraViewModel(camera))
                 .ToList()
                 .AsReadOnly();
 
+            foreach (var camera in Cameras)
+            {
+                camera.SetPropertyChanged(nameof(camera.Capture), () =>
+                {
+                    if (camera.Capture)
+                    {
+                        StartCapture(camera);
+                    }
+                    else
+                    {
+                        StopCapture(camera);
+                    }
+                });
+            }
+
             if (Cameras.Any())
             {
                 CameraSelectedIndex = 0;
             }
         }
+
+        public void StartCapture(CameraViewModel camera)
+        {
+            OnStartCapture?.Invoke(this, new WebcamCaptureEventArg(camera.Name));
+        }
+
+        public void StopCapture(CameraViewModel camera)
+        {
+            OnStopCapture?.Invoke(this, new WebcamCaptureEventArg(camera.Name));
+        }
+
+        public event EventHandler<WebcamCaptureEventArg> OnStopCapture;
+        public event EventHandler<WebcamCaptureEventArg> OnStartCapture;
     }
 }

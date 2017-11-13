@@ -13,7 +13,7 @@ namespace ESystems.WebCamControl.Tools.ViewModel
         /// </summary>
         /// <param name="execute">Command action. </param>
         /// <returns>Instance of <see cref="ICommand"/>. </returns>
-        ICommand CreateCommand(Action<object> execute);
+        ICommand CreateCommand(Action execute);
 
         /// <summary>
         /// Create command.
@@ -27,16 +27,9 @@ namespace ESystems.WebCamControl.Tools.ViewModel
         /// Create command.
         /// </summary>
         /// <param name="execute">Command action. </param>
-        /// <returns>Instance of <see cref="ICommand"/>. </returns>
-        ICommand CreateCommand(Action execute);
-
-        /// <summary>
-        /// Create command.
-        /// </summary>
-        /// <param name="execute">Command action. </param>
         /// <param name="canExecute">Command predicate. </param>
         /// <returns>Instance of <see cref="ICommand"/>. </returns>
-        ICommand CreateCommand(Action<object> execute, Predicate<object> canExecute);
+        ICommand CreateCommand<T>(Action<T> execute, Func<T, bool> canExecute);
 
         /// <summary>
         /// Create command.

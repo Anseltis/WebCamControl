@@ -43,7 +43,10 @@
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="ICommandFactory.cs" />
     <Compile Include="NotifyPropertyChangedExtension.cs" />
+    <Compile Include="NotifyPropertyChangeSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebcamCaptureEventArg.cs" />
+    <Compile Include="WebcamCaptureHolder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

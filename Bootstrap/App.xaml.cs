@@ -18,7 +18,8 @@ namespace ESystems.WebCamControl.Bootstrap
         {
             var mainView = new MainWindow();
             mainView.Show();
-            var viewModel = new WorkspaceViewModel(new CommandFactory(), new CameraProvider());
+            var model = new CameraProvider();
+            var viewModel = new WorkspaceViewModel(model, new CommandFactory());
             mainView.DataContext = viewModel;
             viewModel.RefreshCameras();
         }

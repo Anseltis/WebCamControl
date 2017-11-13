@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:View"
-             xmlns:controls="clr-namespace:View.Controls"
              xmlns:viewModel="clr-namespace:ESystems.WebCamControl.ViewModel;assembly=ESystems.WebCamControl.ViewModel"
+             xmlns:controls="clr-namespace:ESystems.WebCamControl.View.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance viewModel:WorkspaceViewModel}">
@@ -18,7 +17,8 @@
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <controls:WebcamListView Grid.Column="0" Grid.Row="0"></controls:WebcamListView>
+        <controls:WebcamListView Grid.Column="0" Grid.Row="0"/>
         <controls:WebcamVideoView Grid.Column="1" Grid.Row="1"/>
+        <controls:WebcamVideoControlView Grid.Column="1" Grid.Row="0"/>
     </Grid>
 </UserControl>

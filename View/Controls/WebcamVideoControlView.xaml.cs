@@ -3,11 +3,11 @@
 namespace ESystems.WebCamControl.View.Controls
 {
     /// <summary>
-    /// Interaction logic for WebcamVideoView.xaml
+    /// Interaction logic for WebcamVideoControlView.xaml
     /// </summary>
-    public partial class WebcamVideoView : UserControl
+    public partial class WebcamVideoControlView : UserControl
     {
-        public WebcamVideoView()
+        public WebcamVideoControlView()
         {
             InitializeComponent();
         }

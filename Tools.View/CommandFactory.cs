@@ -12,22 +12,17 @@ namespace ESystems.WebCamControl.Tools.View
         /// <summary>
         /// Create command.
         /// </summary>
-        /// <param name="execute">Command action. </param>
-        /// <returns>Instance of <see cref="ICommand"/>. </returns>
-        public ICommand CreateCommand(Action<object> execute)
-        {
-            return new RelayCommand(execute);
-        }
-
-        /// <summary>
-        /// Create command.
-        /// </summary>
         /// <typeparam name="T">Concrete type. </typeparam>
         /// <param name="execute">Command action. </param>
         /// <returns>Instance of <see cref="ICommand"/>. </returns>
         public ICommand CreateCommand<T>(Action<T> execute)
         {
             return CreateCommand(obj => execute((T)obj));
+        }
+
+        public ICommand CreateCommand<T>(Action<T> execute, Func<T, bool> canExecute)
+        {
+            return new RelayCommand(o => execute((T)o), o => canExecute((T)o));
         }
 
         /// <summary>
@@ -46,20 +41,19 @@ namespace ESystems.WebCamControl.Tools.View
         /// <param name="execute">Command action. </param>
         /// <param name="canExecute">Command predicate. </param>
         /// <returns>Instance of <see cref="ICommand"/>. </returns>
-        public ICommand CreateCommand(Action<object> execute, Predicate<object> canExecute)
+        public ICommand CreateCommand(Action execute, Func<bool> canExecute)
         {
-            return new RelayCommand(execute, canExecute);
+            return new RelayCommand(o => execute(), o => canExecute());
         }
 
         /// <summary>
         /// Create command.
         /// </summary>
         /// <param name="execute">Command action. </param>
-        /// <param name="canExecute">Command predicate. </param>
         /// <returns>Instance of <see cref="ICommand"/>. </returns>
-        public ICommand CreateCommand(Action execute, Func<bool> canExecute)
+        private ICommand CreateCommand(Action<object> execute)
         {
-            return new RelayCommand(o => execute(), o => canExecute());
+            return new RelayCommand(execute);
         }
     }
 }
