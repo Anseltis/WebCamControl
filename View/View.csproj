@@ -37,10 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -60,6 +57,12 @@
   <ItemGroup>
     <Compile Include="Controls\WebcamListView.xaml.cs">
       <DependentUpon>WebcamListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WebcamPropertyListView.xaml.cs">
+      <DependentUpon>WebcamPropertyListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WebcamPropertyView.xaml.cs">
+      <DependentUpon>WebcamPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\WebcamVideoControlView.xaml.cs">
       <DependentUpon>WebcamVideoControlView.xaml</DependentUpon>
@@ -95,6 +98,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\WebcamListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\WebcamPropertyListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\WebcamPropertyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

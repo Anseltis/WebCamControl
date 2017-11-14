@@ -50,6 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="CameraPropertySetter.cs" />
+    <Compile Include="CameraPropertyBuilder.cs" />
+    <Compile Include="CameraProperty.cs" />
+    <Compile Include="CameraPropertyType.cs" />
     <Compile Include="CameraProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -14,11 +14,12 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <controls:WebcamListView Grid.Column="0" Grid.Row="0"/>
         <controls:WebcamVideoView Grid.Column="1" Grid.Row="1"/>
         <controls:WebcamVideoControlView Grid.Column="1" Grid.Row="0"/>
+        <controls:WebcamPropertyListView Grid.Column="0" Grid.Row="1" DataContext="{Binding CameraSelectedItem}"/>
     </Grid>
 </UserControl>

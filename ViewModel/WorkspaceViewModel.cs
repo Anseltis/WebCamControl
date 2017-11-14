@@ -13,6 +13,7 @@ namespace ESystems.WebCamControl.ViewModel
     public class WorkspaceViewModel: BaseViewModel, IWebcamCaptureHolder
     {
         private readonly CameraProvider _cameraProvider;
+        private readonly ICommandFactory _commandFactory;
 
         private IReadOnlyList<CameraViewModel> _cameras = NoCameras;
         private static readonly IReadOnlyList<CameraViewModel> NoCameras = new List<CameraViewModel>().AsReadOnly();
@@ -60,6 +61,7 @@ namespace ESystems.WebCamControl.ViewModel
         public WorkspaceViewModel(CameraProvider cameraProvider, ICommandFactory commandFactory)
         {
             _cameraProvider = cameraProvider;
+            _commandFactory = commandFactory;
             RefreshCameraCommand = commandFactory.CreateCommand(RefreshCameras);
 
             this
@@ -88,7 +90,7 @@ namespace ESystems.WebCamControl.ViewModel
 
             Cameras = NoCameras;
             Cameras = _cameraProvider.GetList()
-                .Select(camera => new CameraViewModel(camera))
+                .Select(camera => new CameraViewModel(camera, _cameraProvider, _commandFactory))
                 .ToList()
                 .AsReadOnly();
 

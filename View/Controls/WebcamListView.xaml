@@ -15,7 +15,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ComboBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Cameras}" DisplayMemberPath="Name" SelectedIndex="{Binding CameraSelectedIndex}"/>
-        <Button Grid.Column="1" Grid.Row="0" Command="{Binding RefreshCameraCommand}">Refresh</Button>
+        <ComboBox Grid.Column="0" Grid.Row="0" Margin="2" ItemsSource="{Binding Cameras}" DisplayMemberPath="Name" SelectedIndex="{Binding CameraSelectedIndex}"/>
+        <Button Grid.Column="1" Grid.Row="0" Margin="2" Command="{Binding RefreshCameraCommand}">Refresh</Button>
     </Grid>
 </UserControl>
