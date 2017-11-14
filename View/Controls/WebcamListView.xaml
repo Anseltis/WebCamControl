@@ -4,18 +4,45 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:ESystems.WebCamControl.ViewModel;assembly=ESystems.WebCamControl.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:ESystems.WebCamControl.Tools.View.Behaviors;assembly=ESystems.WebCamControl.Tools.View"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="500"
              d:DataContext="{d:DesignInstance viewModel:WorkspaceViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ComboBox Grid.Column="0" Grid.Row="0" Margin="2" ItemsSource="{Binding Cameras}" DisplayMemberPath="Name" SelectedIndex="{Binding CameraSelectedIndex}"/>
-        <Button Grid.Column="1" Grid.Row="0" Margin="2" Command="{Binding RefreshCameraCommand}">Refresh</Button>
+        <Button Grid.Column="1" Grid.Row="0" Margin="2" Command="{Binding RefreshCameraCommand}" Width="80">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/ESystems.WebCamControl.View;component/Icons/refresh.png" />
+                <TextBlock Margin="6,0,6,0" Text="Refresh"/>
+            </StackPanel>
+        </Button>
+        <ToggleButton Grid.Column="2" Grid.Row="0" Margin="2" Width="80" IsChecked="{Binding ShowVideo, Mode=TwoWay}">
+            <ToggleButton.Style>
+                    <Style TargetType="{x:Type ToggleButton}">
+                        <Setter Property="Background" Value="Green"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Background" Value="Red"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/ESystems.WebCamControl.View;component/Icons/view.png" />
+                <TextBlock Margin="6,0,6,0" Text="Show"/>
+            </StackPanel>
+            <i:Interaction.Behaviors>
+                <behaviors:AutoFitInWindowBehavior MinWidth="420" MaxWidth="900"/>
+            </i:Interaction.Behaviors>
+        </ToggleButton>
     </Grid>
 </UserControl>

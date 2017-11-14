@@ -48,10 +48,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\AutoFitInWindowBehavior.cs" />
     <Compile Include="Behaviors\WebcamCaptureBehavior.cs" />
     <Compile Include="BindingChangedEventArgs.cs" />
     <Compile Include="BindingListener.cs" />
     <Compile Include="CommandFactory.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\NullableToBooleanConverter.cs" />
     <Compile Include="DataEventTrigger.cs" />
     <Compile Include="DependencyPropertyListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

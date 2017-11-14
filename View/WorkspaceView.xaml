@@ -5,12 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModel="clr-namespace:ESystems.WebCamControl.ViewModel;assembly=ESystems.WebCamControl.ViewModel"
              xmlns:controls="clr-namespace:ESystems.WebCamControl.View.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="1000"
+             xmlns:converters="clr-namespace:ESystems.WebCamControl.Tools.View.Converters;assembly=ESystems.WebCamControl.Tools.View"
+             mc:Ignorable="d" Width="Auto"
+             d:DesignHeight="400" d:DesignWidth="400"
              d:DataContext="{d:DesignInstance viewModel:WorkspaceViewModel}">
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <converters:NullableToBooleanConverter x:Key="NullableToBooleanConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -18,8 +23,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <controls:WebcamListView Grid.Column="0" Grid.Row="0"/>
-        <controls:WebcamVideoView Grid.Column="1" Grid.Row="1"/>
-        <controls:WebcamVideoControlView Grid.Column="1" Grid.Row="0"/>
-        <controls:WebcamPropertyListView Grid.Column="0" Grid.Row="1" DataContext="{Binding CameraSelectedItem}"/>
+        <controls:WebcamPropertyListView Grid.Column="0" Grid.Row="1" DataContext="{Binding CameraSelectedItem}" IsEnabled="{Binding Converter={StaticResource NullableToBooleanConverter}}"/>
+        <controls:WebcamVideoControlView Grid.Column="1" Grid.Row="0" Visibility="{Binding ShowVideo, Converter={StaticResource BooleanToVisibilityConverter}}"/>        
+        <controls:WebcamVideoView Grid.Column="1" Grid.Row="1" Visibility="{Binding ShowVideo, Converter={StaticResource BooleanToVisibilityConverter}}" />        
     </Grid>
 </UserControl>

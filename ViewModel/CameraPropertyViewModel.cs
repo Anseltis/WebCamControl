@@ -3,6 +3,10 @@ using ESystems.WebCamControl.Tools.ViewModel;
 
 namespace ESystems.WebCamControl.ViewModel
 {
+
+    /// <summary>
+    /// Camera property class (view model).
+    /// </summary>
     public class CameraPropertyViewModel : BaseViewModel
     {
         private int _value;

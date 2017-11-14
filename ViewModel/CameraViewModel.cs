@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
-using System.Xml.Linq;
-using System.Xml.XPath;
 using ESystems.WebCamControl.Model;
 using ESystems.WebCamControl.Tools.ViewModel;
 
@@ -14,6 +13,7 @@ namespace ESystems.WebCamControl.ViewModel
     {
         private readonly Camera _camera;
         private readonly CameraProvider _cameraProvider;
+
         private readonly Lazy<CameraPropertyViewModel> _focusLazy;
         private readonly Lazy<CameraPropertyViewModel> _exposureLazy;
         private readonly Lazy<CameraPropertyViewModel> _irisLazy;
@@ -21,8 +21,10 @@ namespace ESystems.WebCamControl.ViewModel
         private readonly Lazy<CameraPropertyViewModel> _rollLazy;
         private readonly Lazy<CameraPropertyViewModel> _tiltLazy;
         private readonly Lazy<CameraPropertyViewModel> _zoomLazy;
+        private readonly Lazy<IEnumerable<CameraPropertyViewModel>> _propertiesLazy;
 
         private bool _capture;
+        
 
         /// <summary> 
         /// Get camera friendly name 
@@ -51,6 +53,8 @@ namespace ESystems.WebCamControl.ViewModel
         public CameraPropertyViewModel Tilt => _tiltLazy.Value;
         public CameraPropertyViewModel Zoom => _zoomLazy.Value;
 
+        public IEnumerable<CameraPropertyViewModel> Properties => _propertiesLazy.Value;
+
         public ICommand RestoreCommand { get; }
         public ICommand SaveCommand { get; }
 
@@ -59,10 +63,16 @@ namespace ESystems.WebCamControl.ViewModel
         /// <param name="camera">A camera model</param>
         /// <param name="cameraProvider">A camera list discovery</param>
         /// <param name="commandFactory">A factory to create command instance</param>
-        public CameraViewModel(Camera camera, CameraProvider cameraProvider, ICommandFactory commandFactory)
+        /// <param name="storeManager">Store manager to save data</param>
+        public CameraViewModel(
+            Camera camera, 
+            CameraProvider cameraProvider, 
+            ICommandFactory commandFactory,
+            CameraStoreManager storeManager)
         {
             _camera = camera;
             _cameraProvider = cameraProvider;
+
             _focusLazy = new Lazy<CameraPropertyViewModel>(() => CreateCameraProperty(CameraPropertyType.Focus));
             _exposureLazy = new Lazy<CameraPropertyViewModel>(() => CreateCameraProperty(CameraPropertyType.Exposure));
             _irisLazy = new Lazy<CameraPropertyViewModel>(() => CreateCameraProperty(CameraPropertyType.Iris));
@@ -71,34 +81,11 @@ namespace ESystems.WebCamControl.ViewModel
             _tiltLazy = new Lazy<CameraPropertyViewModel>(() => CreateCameraProperty(CameraPropertyType.Tilt));
             _zoomLazy = new Lazy<CameraPropertyViewModel>(() => CreateCameraProperty(CameraPropertyType.Zoom));
 
-            SaveCommand = commandFactory.CreateCommand(Save);
-            RestoreCommand = commandFactory.CreateCommand(Restore);
-        }
+            _propertiesLazy = new Lazy<IEnumerable<CameraPropertyViewModel>>(
+                () => new[] { Focus, Exposure, Iris, Pan, Roll, Tilt, Zoom });
 
-        public XElement GetState()
-        {
-            return new XElement("root",
-                new XElement("Name", _camera.Name),
-                new XElement("DevicePath", _camera.DevicePath),
-                new XElement("Properties"), 
-                    new[]
-                    {
-                        GetPropertyState(Focus),
-                        GetPropertyState(Iris),
-                        GetPropertyState(Exposure),
-                        GetPropertyState(Pan),
-                        GetPropertyState(Roll),
-                        GetPropertyState(Tilt),
-                        GetPropertyState(Zoom)
-                    });
-        }
-
-        public XElement GetPropertyState(CameraPropertyViewModel property)
-        {
-            return new XElement("Property",
-                new XElement("Name", property.Name),
-                new XElement("Auto", property.Auto),
-                new XElement("Value", property.Value));
+            SaveCommand = commandFactory.CreateCommand(() => storeManager.Save(this));
+            RestoreCommand = commandFactory.CreateCommand(() => storeManager.Restore(this));
         }
 
         private CameraPropertyViewModel CreateCameraProperty(CameraPropertyType propertyType)
@@ -113,23 +100,6 @@ namespace ESystems.WebCamControl.ViewModel
                     _cameraProvider.SetProperty(_camera, propertyType, setter);
                 });
             return propertyViewModel;
-        }
-
-        public void Save()
-        {
-            GetState().Save($"{Name}.xml");
-        }
-
-        public void Restore()
-        {
-            var document = XDocument.Load($"{Name}.xml");
-            foreach (var element in document.XPathSelectElements("//Property"))
-            {
-                var name = (string)element.Element("Name");
-                var property = (CameraPropertyViewModel)this.GetType().GetProperty(name).GetValue(this);
-                property.Auto = (bool)element.Element("Auto");
-                property.Value = (int) element.Element("Value");
-            }
         }
     }
 }

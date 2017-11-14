@@ -9,7 +9,18 @@
              d:DesignHeight="30" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance viewModel:WorkspaceViewModel}">
     <StackPanel Orientation="Horizontal">
-        <Button Width="50" Margin="2" Command="{Binding StartCaptureCommand}" CommandParameter="{Binding CameraSelectedItem}">Start</Button>
-        <Button Width="50" Margin="2" Command="{Binding StopCaptureCommand}" CommandParameter="{Binding CameraSelectedItem}">Stop</Button>
+        <Button Width="80" Margin="2" Command="{Binding StartCaptureCommand}" CommandParameter="{Binding CameraSelectedItem}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/ESystems.WebCamControl.View;component/Icons/play.png" />
+                <TextBlock Margin="6,0,6,0" Text="Start"/>
+            </StackPanel>
+
+        </Button>
+        <Button Width="80" Margin="2" Command="{Binding StopCaptureCommand}" CommandParameter="{Binding CameraSelectedItem}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/ESystems.WebCamControl.View;component/Icons/stop.png" />
+                <TextBlock Margin="6,0,6,0" Text="Stop"/>
+            </StackPanel>
+        </Button>
     </StackPanel>
 </UserControl>

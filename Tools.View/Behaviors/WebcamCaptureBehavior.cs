@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Interactivity;
 using ESystems.WebCamControl.Tools.ViewModel;
@@ -40,7 +39,6 @@ namespace ESystems.WebCamControl.Tools.View.Behaviors
                 webcamCaptureHolder.OnStartCapture += (sender, args) => StartCapture(webCameraControl, args);
                 webcamCaptureHolder.OnStopCapture += (sender, args) => StopCapture(webCameraControl);
             }
-            
         }
 
         /// <summary>
@@ -58,6 +56,11 @@ namespace ESystems.WebCamControl.Tools.View.Behaviors
 
         private static void StartCapture(WebCameraControl webCameraControl, WebcamCaptureEventArg webcamCaptureEventArg)
         {
+            if (webCameraControl.IsCapturing)
+            {
+                webCameraControl.StopCapture();
+            }
+
             var webcam = webCameraControl.GetVideoCaptureDevices()
                 .FirstOrDefault(item => item.Name == webcamCaptureEventArg.DeviceName);
             if (webcam == null)
@@ -70,6 +73,11 @@ namespace ESystems.WebCamControl.Tools.View.Behaviors
 
         private static void StopCapture(WebCameraControl webCameraControl)
         {
+            if (!webCameraControl.IsCapturing)
+            {
+                return;
+            }
+
             webCameraControl.StopCapture();
         }
     }

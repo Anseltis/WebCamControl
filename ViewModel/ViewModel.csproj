@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CameraStoreManager.cs" />
     <Compile Include="CameraPropertyViewModel.cs" />
     <Compile Include="CameraViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

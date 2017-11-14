@@ -1,5 +1,8 @@
 ﻿namespace ESystems.WebCamControl.Model
 {
+    /// <summary>
+    /// A builder class for create <see cref="CameraPropertyBuilder"/>
+    /// </summary>
     public class CameraPropertyBuilder
     {
         public CameraPropertyType PropertyType { get; set; }

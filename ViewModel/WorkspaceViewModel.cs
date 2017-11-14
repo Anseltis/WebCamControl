@@ -18,6 +18,7 @@ namespace ESystems.WebCamControl.ViewModel
         private IReadOnlyList<CameraViewModel> _cameras = NoCameras;
         private static readonly IReadOnlyList<CameraViewModel> NoCameras = new List<CameraViewModel>().AsReadOnly();
         private int _cameraSelectedIndex;
+        private bool _showVideo;
 
         /// <summary> 
         /// Gets or sets cameras in the system. 
@@ -37,9 +38,20 @@ namespace ESystems.WebCamControl.ViewModel
             set => SetField(ref _cameraSelectedIndex, value);
         }
 
+        /// <summary>
+        /// Gets or sets information about video box visibility.
+        /// </summary>
+        public bool ShowVideo
+        {
+            get => _showVideo;
+            set => SetField(ref _showVideo, value);
+        }
 
         public ICommand StartCaptureCommand { get; }
         public ICommand StopCaptureCommand { get; }
+
+        public event EventHandler<WebcamCaptureEventArg> OnStopCapture;
+        public event EventHandler<WebcamCaptureEventArg> OnStartCapture;
 
         /// <summary>
         /// Gets a active camers instance.
@@ -66,16 +78,27 @@ namespace ESystems.WebCamControl.ViewModel
 
             this
                 .SetPropertyChanged(nameof(CameraSelectedIndex), () => OnPropertyChanged(nameof(CameraSelectedItem)))
-                .SetPropertyChanged(nameof(CameraSelectedItem), () => 
+                .SetPropertyChanged(nameof(CameraSelectedItem), () =>
                 {
                     foreach (var camera in _cameras)
                     {
                         camera.Capture = false;
                     }
+                })
+                .SetPropertyChanged(nameof(ShowVideo), () =>
+                {
+                    if (CameraSelectedItem != null)
+                    {
+                        CameraSelectedItem.Capture = ShowVideo;
+                    }
                 });
 
-            StartCaptureCommand = commandFactory.CreateCommand<CameraViewModel>(StartCapture);
-            StopCaptureCommand = commandFactory.CreateCommand<CameraViewModel>(StopCapture);
+            StartCaptureCommand = commandFactory.CreateCommand<CameraViewModel>(
+                camera => camera.Capture = true, 
+                camera => camera?.Capture == false);
+            StopCaptureCommand = commandFactory.CreateCommand<CameraViewModel>(
+                camera => camera.Capture = false,
+                camera => camera?.Capture == true);
         }
 
         /// <summary>
@@ -88,9 +111,10 @@ namespace ESystems.WebCamControl.ViewModel
                 CameraSelectedItem.Capture = false;    
             }
 
-            Cameras = NoCameras;
+            CameraSelectedIndex = -1;
+            Cameras = NoCameras;            
             Cameras = _cameraProvider.GetList()
-                .Select(camera => new CameraViewModel(camera, _cameraProvider, _commandFactory))
+                .Select(camera => new CameraViewModel(camera, _cameraProvider, _commandFactory, new CameraStoreManager(camera)))
                 .ToList()
                 .AsReadOnly();
 
@@ -100,11 +124,11 @@ namespace ESystems.WebCamControl.ViewModel
                 {
                     if (camera.Capture)
                     {
-                        StartCapture(camera);
+                        OnStartCapture?.Invoke(this, new WebcamCaptureEventArg(camera.Name));
                     }
                     else
                     {
-                        StopCapture(camera);
+                        OnStopCapture?.Invoke(this, new WebcamCaptureEventArg(camera.Name));
                     }
                 });
             }
@@ -114,18 +138,5 @@ namespace ESystems.WebCamControl.ViewModel
                 CameraSelectedIndex = 0;
             }
         }
-
-        public void StartCapture(CameraViewModel camera)
-        {
-            OnStartCapture?.Invoke(this, new WebcamCaptureEventArg(camera.Name));
-        }
-
-        public void StopCapture(CameraViewModel camera)
-        {
-            OnStopCapture?.Invoke(this, new WebcamCaptureEventArg(camera.Name));
-        }
-
-        public event EventHandler<WebcamCaptureEventArg> OnStopCapture;
-        public event EventHandler<WebcamCaptureEventArg> OnStartCapture;
     }
 }

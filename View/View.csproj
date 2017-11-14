@@ -136,5 +136,15 @@
       <Name>ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\play.png" />
+    <Resource Include="Icons\refresh.png" />
+    <Resource Include="Icons\restore.png" />
+    <Resource Include="Icons\save.png" />
+    <Resource Include="Icons\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\view.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
