@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using ESystems.WebCamControl.Model;
 using ESystems.WebCamControl.Tools.ViewModel;
 
@@ -116,10 +117,19 @@ namespace ESystems.WebCamControl.ViewModel
 
         public void Save()
         {
+            GetState().Save($"{Name}.xml");
         }
 
         public void Restore()
         {
+            var document = XDocument.Load($"{Name}.xml");
+            foreach (var element in document.XPathSelectElements("//Property"))
+            {
+                var name = (string)element.Element("Name");
+                var property = (CameraPropertyViewModel)this.GetType().GetProperty(name).GetValue(this);
+                property.Auto = (bool)element.Element("Auto");
+                property.Value = (int) element.Element("Value");
+            }
         }
     }
 }

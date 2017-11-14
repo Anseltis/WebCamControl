@@ -10,8 +10,8 @@
              d:DataContext="{d:DesignInstance viewModel:CameraViewModel}">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal" Height="30">
-            <Button Width="50" Margin="2">Save</Button>
-            <Button Width="50" Margin="2">Restore</Button>
+            <Button Width="50" Margin="2" Command="{Binding SaveCommand}">Save</Button>
+            <Button Width="50" Margin="2" Command="{Binding RestoreCommand}">Restore</Button>
         </StackPanel>
         <local:WebcamPropertyView DataContext="{Binding Focus}"/>
         <local:WebcamPropertyView DataContext="{Binding Pan}"/>
