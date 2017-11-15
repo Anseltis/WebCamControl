@@ -1,6 +1,6 @@
 # WebCam Control
 
-This program allows you to modify native options of your webcam. This program is based on DirectX.Directshow extensions and doesn't have any driver-specific code. Changing options affect all applications which use current webcam.
+This program allows you to modify native options of your webcam. This program is based on DirectX.Directshow extensions and doesn't have any driver-specific code. Changing options affect all applications which use the current webcam.
 
 * [Camera options](#camera-options)
 * [Program modules](#program-modules)
@@ -43,6 +43,9 @@ This program allows you to modify native options of your webcam. This program is
 | Stop Button | Stops the camera video |
 | Save Button | Saves camera options into a local xml file |
 | Restore Button | Restores camera options into a local xml file |
+| Ctrl + Shift + Numpad+ | Increases focus value |
+| Ctrl + Shift + Numpad- | Decreases focus value |
+| Restore Button | Restores camera options from a local xml file |
 
 # Used Tools
 | Tool | Description |
@@ -52,4 +55,5 @@ This program allows you to modify native options of your webcam. This program is
 | Windows Presentation Foundation | Windows Desktop Presentation Framework |
 | WebEye.Controls.Wpf.WebCameraControl | WPF control to webcam video capture |
 | AForge.Video.DirectShow | Library to work with the DirectX.DirectShow|
+| MouseKeyHook | Library to intercept global key events |
 

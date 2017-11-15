@@ -4,8 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:ESystems.WebCamControl.View;assembly=ESystems.WebCamControl.View"
+        xmlns:behaviors="clr-namespace:ESystems.WebCamControl.Tools.View.Behaviors;assembly=ESystems.WebCamControl.Tools.View"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:viewModel="clr-namespace:ESystems.WebCamControl.ViewModel;assembly=ESystems.WebCamControl.ViewModel"
         mc:Ignorable="d"
-        Title="Webcam Control" Height="500" Width="420">
+        Title="Webcam Control" Height="500" Width="420"
+        d:DataContext="{d:DesignInstance viewModel:WorkspaceViewModel}">
+    <i:Interaction.Behaviors>
+        <behaviors:GlobalKeyEventBehavior  Command="{Binding KeyDownCommand}" PropertyName="Focus"/>
+    </i:Interaction.Behaviors>
     <Grid>
         <view:WorkspaceView />
     </Grid>

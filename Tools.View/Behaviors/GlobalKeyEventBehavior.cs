@@ -1,0 +1,75 @@
+﻿using System.Windows;
+using System.Windows.Input;
+using System.Windows.Interactivity;
+using ESystems.WebCamControl.Tools.ViewModel.KeyEvent;
+using Gma.System.MouseKeyHook;
+using KeyEventArgs = System.Windows.Forms.KeyEventArgs;
+
+namespace ESystems.WebCamControl.Tools.View.Behaviors
+{
+    public class GlobalKeyEventBehavior : Behavior<Window>
+    {
+        /// <summary>
+        /// Gets or sets command action
+        /// </summary>
+        public ICommand Command
+        {
+            get => (ICommand) GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
+        /// <summary>
+        /// Dependency property of <see cref="Command"/>.
+        /// </summary>
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(
+                nameof(Command),
+                typeof(ICommand),
+                typeof(GlobalKeyEventBehavior),
+                new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets command action
+        /// </summary>
+        public string PropertyName
+        {
+            get => (string)GetValue(PropertyNameProperty);
+            set => SetValue(PropertyNameProperty, value);
+        }
+
+        /// <summary>
+        /// Dependency property of <see cref="PropertyName"/>.
+        /// </summary>
+        public static readonly DependencyProperty PropertyNameProperty =
+            DependencyProperty.Register(
+                nameof(PropertyName),
+                typeof(string),
+                typeof(GlobalKeyEventBehavior),
+                new PropertyMetadata(null));
+
+
+        private IKeyboardMouseEvents _hook;
+
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            _hook = Hook.GlobalEvents();
+            _hook.KeyDown += HookOnKeyDown;
+        }
+
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+            _hook.KeyDown -= HookOnKeyDown;
+        }
+
+        private void HookOnKeyDown(object sender, KeyEventArgs args)
+        {
+            var parameter = new KeyEventParameter(PropertyName, args.KeyCode.ToString());
+            if (args.Control && args.Shift && Command.CanExecute(parameter))
+            {
+                Command.Execute(parameter);
+            }
+        }
+    }
+}

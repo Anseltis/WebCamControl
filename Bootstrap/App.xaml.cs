@@ -2,6 +2,7 @@
 using ESystems.WebCamControl.Model;
 using ESystems.WebCamControl.Tools.View;
 using ESystems.WebCamControl.ViewModel;
+using Application = System.Windows.Application;
 
 namespace ESystems.WebCamControl.Bootstrap
 {

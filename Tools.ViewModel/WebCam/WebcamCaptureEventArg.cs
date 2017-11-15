@@ -1,4 +1,4 @@
-﻿namespace ESystems.WebCamControl.Tools.ViewModel
+﻿namespace ESystems.WebCamControl.Tools.ViewModel.WebCam
 {
     public class WebcamCaptureEventArg
     {

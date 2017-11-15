@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESystems.WebCamControl.Tools.ViewModel
+namespace ESystems.WebCamControl.Tools.ViewModel.WebCam
 {
     public interface IWebcamCaptureHolder
     {

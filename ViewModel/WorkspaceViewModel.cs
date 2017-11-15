@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Input;
 using ESystems.WebCamControl.Model;
 using ESystems.WebCamControl.Tools.ViewModel;
+using ESystems.WebCamControl.Tools.ViewModel.KeyEvent;
+using ESystems.WebCamControl.Tools.ViewModel.WebCam;
 
 namespace ESystems.WebCamControl.ViewModel
 {
@@ -53,6 +55,14 @@ namespace ESystems.WebCamControl.ViewModel
         public event EventHandler<WebcamCaptureEventArg> OnStopCapture;
         public event EventHandler<WebcamCaptureEventArg> OnStartCapture;
 
+        public CameraPropertyViewModel Focus => CameraSelectedItem?.Focus;
+        public CameraPropertyViewModel Exposure => CameraSelectedItem?.Exposure;
+        public CameraPropertyViewModel Iris => CameraSelectedItem?.Iris;
+        public CameraPropertyViewModel Pan => CameraSelectedItem?.Pan;
+        public CameraPropertyViewModel Roll => CameraSelectedItem?.Roll;
+        public CameraPropertyViewModel Tilt => CameraSelectedItem?.Tilt;
+        public CameraPropertyViewModel Zoom => CameraSelectedItem?.Zoom;
+
         /// <summary>
         /// Gets a active camers instance.
         /// </summary>
@@ -63,6 +73,11 @@ namespace ESystems.WebCamControl.ViewModel
         /// Gets Refresh cameras action
         /// </summary>
         public ICommand RefreshCameraCommand { get; }
+
+        /// <summary>
+        /// Gets global keydown action
+        /// </summary>
+        public ICommand KeyDownCommand { get; }
 
 
         /// <summary>
@@ -75,6 +90,7 @@ namespace ESystems.WebCamControl.ViewModel
             _cameraProvider = cameraProvider;
             _commandFactory = commandFactory;
             RefreshCameraCommand = commandFactory.CreateCommand(RefreshCameras);
+            KeyDownCommand = commandFactory.CreateCommand<KeyEventParameter>(GlobalKeyDown);
 
             this
                 .SetPropertyChanged(nameof(CameraSelectedIndex), () => OnPropertyChanged(nameof(CameraSelectedItem)))
@@ -136,6 +152,46 @@ namespace ESystems.WebCamControl.ViewModel
             if (Cameras.Any())
             {
                 CameraSelectedIndex = 0;
+            }
+        }
+
+        private void GlobalKeyDown(KeyEventParameter keyEventParameter)
+        {
+            if (CameraSelectedItem == null || !CameraSelectedItem.Focus.Enabled)
+            {
+                return;
+            }
+
+            var property = CameraSelectedItem.Properties
+                .FirstOrDefault(item => item.Name == keyEventParameter.PropertyName);
+            if (property == null)
+            {
+                return;
+            }
+
+            try
+            {
+                ChangeProperty(property, keyEventParameter.KeyCode);
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {
+            }
+
+        }
+
+        private static void ChangeProperty(CameraPropertyViewModel property, string keyCode)
+        {
+            switch (keyCode)
+            {
+                case "Add":
+                    property.Auto = false;
+                    property.Value++;
+                    break;
+                case "Subtract":
+                    property.Auto = false;
+                    property.Value--;
+                    break;
             }
         }
     }

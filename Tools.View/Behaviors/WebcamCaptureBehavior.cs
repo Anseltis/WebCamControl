@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Interactivity;
 using ESystems.WebCamControl.Tools.ViewModel;
+using ESystems.WebCamControl.Tools.ViewModel.WebCam;
 using WebEye.Controls.Wpf;
 
 namespace ESystems.WebCamControl.Tools.View.Behaviors
