@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace ESystems.WebCamControl.View
+﻿namespace ESystems.WebCamControl.View
 {
     /// <summary>
     /// Interaction logic for WorkspaceView.xaml
     /// </summary>
-    public partial class WorkspaceView : UserControl
+    public partial class WorkspaceView
     {
         public WorkspaceView()
         {

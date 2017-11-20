@@ -2,14 +2,13 @@
 using ESystems.WebCamControl.Model;
 using ESystems.WebCamControl.Tools.View;
 using ESystems.WebCamControl.ViewModel;
-using Application = System.Windows.Application;
 
 namespace ESystems.WebCamControl.Bootstrap
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         /// <summary>
         /// Startup implement.

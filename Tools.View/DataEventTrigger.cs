@@ -140,6 +140,7 @@ namespace ESystems.WebCamControl.Tools.View
             if (typeof(EventHandler).IsAssignableFrom(eventInfo.EventHandlerType))
             {
                 var method = GetType().GetMethod(nameof(OnEvent), BindingFlags.NonPublic | BindingFlags.Instance);
+                // ReSharper disable once AssignNullToNotNullAttribute
                 return Delegate.CreateDelegate(eventInfo.EventHandlerType, this, method);
             }
 
@@ -151,6 +152,7 @@ namespace ESystems.WebCamControl.Tools.View
 
             var methodExpression = Expression.Call(
                 Expression.Constant(action),
+                // ReSharper disable once AssignNullToNotNullAttribute
                 action.GetType().GetMethod(nameof(action.Invoke)));
             var lambdaExpression = Expression.Lambda(methodExpression, parameters?.ToArray());
             return Delegate.CreateDelegate(

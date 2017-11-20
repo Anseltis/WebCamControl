@@ -11,7 +11,7 @@
              d:DesignHeight="500" d:DesignWidth="500"
              d:DataContext="{d:DesignInstance viewModel:WorkspaceViewModel}">
     <Grid>
-        <wpf:WebCameraControl Grid.Row="1" Grid.Column="1" >
+        <wpf:WebCameraControl>
             <i:Interaction.Behaviors>
                 <behaviors:WebcamCaptureBehavior WebcamCaptureHolder="{Binding}"/>
             </i:Interaction.Behaviors>

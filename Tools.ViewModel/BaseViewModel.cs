@@ -32,19 +32,5 @@ namespace ESystems.WebCamControl.Tools.ViewModel
             Action notificator = () => OnPropertyChanged(propertyName);
             notificator.SetField(ref field, value);
         }
-
-        /// <summary>
-        /// Notify property changed for transit model property of view model.
-        /// </summary>
-        /// <typeparam name="T">Property type. </typeparam>
-        /// <param name="getValue">Property getter. </param>
-        /// <param name="setValue">Property setter. </param>
-        /// <param name="value">New value. </param>
-        /// <param name="propertyName">Changed property name. </param>
-        protected void SetField<T>(Func<T> getValue, Action<T> setValue, T value, [CallerMemberName] string propertyName = null)
-        {
-            Action notificator = () => OnPropertyChanged(propertyName);
-            notificator.SetField(getValue, setValue, value);
-        }
     }
 }
