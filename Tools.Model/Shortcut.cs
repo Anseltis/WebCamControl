@@ -1,22 +1,17 @@
-﻿using System;
-
-namespace ESystems.WebCamControl.Tools.Model
+﻿namespace ESystems.WebCamControl.Tools.Model
 {
     public class Shortcut
     {
-        private readonly Tuple<string, bool, bool, bool> _tuple;
-        public bool Shift { get; }
-        public bool Alt { get; }
-        public bool Ctrl { get; }
-        public string KeyCode { get; }
+        private readonly (string KeyCode, bool Shift, bool Alt, bool Ctrl) _tuple;
+
+        public bool Shift => _tuple.Shift;
+        public bool Alt => _tuple.Alt;
+        public bool Ctrl => _tuple.Ctrl;
+        public string KeyCode => _tuple.KeyCode;
 
         public Shortcut(string keyCode, bool shift = false, bool alt = false, bool ctrl = false)
         {
-            KeyCode = keyCode;
-            Shift = shift;
-            Alt = alt;
-            Ctrl = ctrl;
-            _tuple = Tuple.Create(keyCode, shift, alt, ctrl);
+            _tuple = (KeyCode: keyCode, Shift: shift, Alt: alt, Ctrl: ctrl);
         }
 
         public override bool Equals(object obj)

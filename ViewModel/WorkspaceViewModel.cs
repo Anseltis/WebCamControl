@@ -175,7 +175,7 @@ namespace ESystems.WebCamControl.ViewModel
 
                     var value = property.Value + (int) control.CameraAction;
 
-                    if (value >= property.Minimum && value < property.Maximum)
+                    if (value >= property.Minimum && value <= property.Maximum)
                     {
                         property.Auto = false;
                         property.Value = value;
