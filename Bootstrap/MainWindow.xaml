@@ -11,7 +11,7 @@
         Title="Webcam Control" Height="500" Width="420"
         d:DataContext="{d:DesignInstance viewModel:WorkspaceViewModel}">
     <i:Interaction.Behaviors>
-        <behaviors:GlobalKeyEventBehavior  Command="{Binding KeyDownCommand}" PropertyName="Focus"/>
+        <behaviors:GlobalKeyEventBehavior  Command="{Binding KeyDownCommand}"/>
     </i:Interaction.Behaviors>
     <Grid>
         <view:WorkspaceView />

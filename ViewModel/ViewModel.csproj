@@ -43,16 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CameraStoreManager.cs" />
     <Compile Include="CameraPropertyViewModel.cs" />
     <Compile Include="CameraViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StoreManager\CameraOptionStoreManager.cs" />
+    <Compile Include="StoreManager\CameraStoreManager.cs" />
     <Compile Include="WorkspaceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{68104DDD-05C1-4CB8-9A08-0008BB85411C}</Project>
       <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools.Model\Tools.Model.csproj">
+      <Project>{8CCC6B9B-B02B-4DAA-A088-B4A1C5D9F58F}</Project>
+      <Name>Tools.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tools.ViewModel\Tools.ViewModel.csproj">
       <Project>{BF9E691B-36C4-4F05-A02C-463E4408B4B1}</Project>

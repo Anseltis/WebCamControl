@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using ESystems.WebCamControl.Model;
+using ESystems.WebCamControl.Tools.Model;
 using ESystems.WebCamControl.Tools.ViewModel;
-using ESystems.WebCamControl.Tools.ViewModel.KeyEvent;
 using ESystems.WebCamControl.Tools.ViewModel.WebCam;
+using ESystems.WebCamControl.ViewModel.StoreManager;
 
 namespace ESystems.WebCamControl.ViewModel
 {
@@ -16,6 +17,7 @@ namespace ESystems.WebCamControl.ViewModel
     {
         private readonly CameraProvider _cameraProvider;
         private readonly ICommandFactory _commandFactory;
+        private readonly IEnumerable<CameraControl> _controls;
 
         private IReadOnlyList<CameraViewModel> _cameras = NoCameras;
         private static readonly IReadOnlyList<CameraViewModel> NoCameras = new List<CameraViewModel>().AsReadOnly();
@@ -90,7 +92,8 @@ namespace ESystems.WebCamControl.ViewModel
             _cameraProvider = cameraProvider;
             _commandFactory = commandFactory;
             RefreshCameraCommand = commandFactory.CreateCommand(RefreshCameras);
-            KeyDownCommand = commandFactory.CreateCommand<KeyEventParameter>(GlobalKeyDown);
+            KeyDownCommand = commandFactory.CreateCommand<Shortcut>(GlobalKeyDown);
+            _controls = new CameraOptionStoreManager().GetState();
 
             this
                 .SetPropertyChanged(nameof(CameraSelectedIndex), () => OnPropertyChanged(nameof(CameraSelectedItem)))
@@ -155,43 +158,33 @@ namespace ESystems.WebCamControl.ViewModel
             }
         }
 
-        private void GlobalKeyDown(KeyEventParameter keyEventParameter)
+        private void GlobalKeyDown(Shortcut shortcut)
         {
-            if (CameraSelectedItem == null || !CameraSelectedItem.Focus.Enabled)
-            {
-                return;
-            }
+            var filteredControls = _controls.Where(control => control.Shortcut.Equals(shortcut)).ToList();
 
-            var property = CameraSelectedItem.Properties
-                .FirstOrDefault(item => item.Name == keyEventParameter.PropertyName);
-            if (property == null)
+            foreach (var control in filteredControls)
             {
-                return;
-            }
+                try
+                {
+                    var camera = _cameras.FirstOrDefault(cam => cam.Name == control.CameraName);
+                    var property = camera?.Properties.FirstOrDefault(prop => prop.Name == control.CameraProperty.ToString());
+                    if (property == null || !property.Enabled)
+                    {
+                        continue;
+                    }
 
-            try
-            {
-                ChangeProperty(property, keyEventParameter.KeyCode);
-            }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch
-            {
-            }
+                    var value = property.Value + (int) control.CameraAction;
 
-        }
-
-        private static void ChangeProperty(CameraPropertyViewModel property, string keyCode)
-        {
-            switch (keyCode)
-            {
-                case "Add":
-                    property.Auto = false;
-                    property.Value++;
-                    break;
-                case "Subtract":
-                    property.Auto = false;
-                    property.Value--;
-                    break;
+                    if (value >= property.Minimum && value < property.Maximum)
+                    {
+                        property.Auto = false;
+                        property.Value = value;
+                    }
+                }
+                // ReSharper disable once EmptyGeneralCatchClause
+                catch
+                {
+                }
             }
         }
     }

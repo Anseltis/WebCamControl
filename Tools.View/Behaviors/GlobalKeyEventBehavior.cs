@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
-using ESystems.WebCamControl.Tools.ViewModel.KeyEvent;
+using ESystems.WebCamControl.Tools.Model;
 using Gma.System.MouseKeyHook;
 using KeyEventArgs = System.Windows.Forms.KeyEventArgs;
 
@@ -28,26 +28,6 @@ namespace ESystems.WebCamControl.Tools.View.Behaviors
                 typeof(GlobalKeyEventBehavior),
                 new PropertyMetadata(null));
 
-        /// <summary>
-        /// Gets or sets command action
-        /// </summary>
-        public string PropertyName
-        {
-            get => (string)GetValue(PropertyNameProperty);
-            set => SetValue(PropertyNameProperty, value);
-        }
-
-        /// <summary>
-        /// Dependency property of <see cref="PropertyName"/>.
-        /// </summary>
-        public static readonly DependencyProperty PropertyNameProperty =
-            DependencyProperty.Register(
-                nameof(PropertyName),
-                typeof(string),
-                typeof(GlobalKeyEventBehavior),
-                new PropertyMetadata(null));
-
-
         private IKeyboardMouseEvents _hook;
 
         protected override void OnAttached()
@@ -65,7 +45,12 @@ namespace ESystems.WebCamControl.Tools.View.Behaviors
 
         private void HookOnKeyDown(object sender, KeyEventArgs args)
         {
-            var parameter = new KeyEventParameter(PropertyName, args.KeyCode.ToString());
+            var parameter = new Shortcut(
+                keyCode: args.KeyCode.ToString(),
+                alt: args.Alt,
+                ctrl: args.Control,
+                shift: args.Shift);
+
             if (args.Control && args.Shift && Command.CanExecute(parameter))
             {
                 Command.Execute(parameter);

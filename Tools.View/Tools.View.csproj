@@ -66,6 +66,10 @@
     <Compile Include="RelayCommand.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tools.Model\Tools.Model.csproj">
+      <Project>{8CCC6B9B-B02B-4DAA-A088-B4A1C5D9F58F}</Project>
+      <Name>Tools.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tools.ViewModel\Tools.ViewModel.csproj">
       <Project>{BF9E691B-36C4-4F05-A02C-463E4408B4B1}</Project>
       <Name>Tools.ViewModel</Name>

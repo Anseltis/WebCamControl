@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using ESystems.WebCamControl.Model;
 using ESystems.WebCamControl.Tools.ViewModel;
+using ESystems.WebCamControl.ViewModel.StoreManager;
 
 namespace ESystems.WebCamControl.ViewModel
 {

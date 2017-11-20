@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using ESystems.WebCamControl.Model;
 
-namespace ESystems.WebCamControl.ViewModel
+namespace ESystems.WebCamControl.ViewModel.StoreManager
 {
     /// <summary>
     /// Class with store options responsibility.
