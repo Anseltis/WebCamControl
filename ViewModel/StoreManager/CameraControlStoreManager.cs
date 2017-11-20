@@ -8,7 +8,7 @@ using ESystems.WebCamControl.Tools.Model;
 
 namespace ESystems.WebCamControl.ViewModel.StoreManager
 {
-    public class CameraOptionStoreManager
+    public class CameraControlStoreManager
     {
         public string FileName => "Controls.config";
 
@@ -28,8 +28,8 @@ namespace ESystems.WebCamControl.ViewModel.StoreManager
                             (string) element.Element("Action")),
                         shortcut: new Shortcut(
                             keyCode: (string) element.XPathSelectElement("Shortcut/KeyCode"),
-                            alt: element.XPathSelectElements("Shortcut/Alt").Any(),
                             shift: element.XPathSelectElements("Shortcut/Shift").Any(),
+                            alt: element.XPathSelectElements("Shortcut/Alt").Any(),
                             ctrl: element.XPathSelectElements("Shortcut/Ctrl").Any())));
             }
             catch

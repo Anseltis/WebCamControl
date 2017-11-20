@@ -93,7 +93,7 @@ namespace ESystems.WebCamControl.ViewModel
             _commandFactory = commandFactory;
             RefreshCameraCommand = commandFactory.CreateCommand(RefreshCameras);
             KeyDownCommand = commandFactory.CreateCommand<Shortcut>(GlobalKeyDown);
-            _controls = new CameraOptionStoreManager().GetState();
+            _controls = new CameraControlStoreManager().GetState();
 
             this
                 .SetPropertyChanged(nameof(CameraSelectedIndex), () => OnPropertyChanged(nameof(CameraSelectedItem)))

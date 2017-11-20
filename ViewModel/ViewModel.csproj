@@ -46,7 +46,7 @@
     <Compile Include="CameraPropertyViewModel.cs" />
     <Compile Include="CameraViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StoreManager\CameraOptionStoreManager.cs" />
+    <Compile Include="StoreManager\CameraControlStoreManager.cs" />
     <Compile Include="StoreManager\CameraStoreManager.cs" />
     <Compile Include="WorkspaceViewModel.cs" />
   </ItemGroup>
