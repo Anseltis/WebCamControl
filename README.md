@@ -45,7 +45,6 @@ This program allows you to modify native options of your webcam. This program is
 | Restore Button | Restores camera options into a local xml file |
 | Ctrl + Shift + Numpad+ | Increases focus value |
 | Ctrl + Shift + Numpad- | Decreases focus value |
-| Restore Button | Restores camera options from a local xml file |
 
 # Used Tools
 | Tool | Description |
