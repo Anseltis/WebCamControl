@@ -51,7 +51,7 @@ namespace ESystems.WebCamControl.Tools.View.Behaviors
                 ctrl: args.Control,
                 shift: args.Shift);
 
-            if (args.Control && args.Shift && Command.CanExecute(parameter))
+            if (Command.CanExecute(parameter))
             {
                 Command.Execute(parameter);
             }
